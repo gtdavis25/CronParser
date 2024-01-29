@@ -2,14 +2,14 @@
 {
     public class CronExpression
     {
-        public CronField Minutes { get; set; }
-        public CronField Hours { get; set; }
-        public CronField DaysOfMonth { get; set; }
-        public CronField Months { get; set; }
-        public CronField DaysOfWeek { get; set; }
-        public string Command { get; set; }
+        public CronField Minutes { get; }
+        public CronField Hours { get; }
+        public CronField DaysOfMonth { get; }
+        public CronField Months { get; }
+        public CronField DaysOfWeek { get; }
+        public string Command { get; }
 
-        public CronExpression(CronField minutes,
+        internal CronExpression(CronField minutes,
                               CronField hours,
                               CronField daysOfMonth,
                               CronField months,

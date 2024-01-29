@@ -2,16 +2,16 @@
 {
     internal class LiteralCronField : CronField
     {
-        public int Value { get; set; }
+        private readonly int _value;
 
-        public LiteralCronField(int value)
+        internal LiteralCronField(CronFieldType fieldType, int value) : base(fieldType)
         {
-            Value = value;
+            _value = value;
         }
 
         public override IEnumerable<int> Expand()
         {
-            yield return Value;
+            yield return _value;
         }
     }
 }

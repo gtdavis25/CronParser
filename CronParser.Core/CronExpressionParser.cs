@@ -7,20 +7,25 @@ namespace CronParser.Core
         public CronExpression Parse(string input)
         {
             var reader = new StringReader(input);
-            var minutes = ParseField(reader);
-            var hours = ParseField(reader);
-            var daysOfMonth = ParseField(reader);
-            var months = ParseField(reader);
-            var daysOfWeek = ParseField(reader);
+            var minutes = ParseField(reader, CronFieldType.Minute);
+            var hours = ParseField(reader, CronFieldType.Hour);
+            var daysOfMonth = ParseField(reader, CronFieldType.DayOfMonth);
+            var months = ParseField(reader, CronFieldType.Month);
+            var daysOfWeek = ParseField(reader, CronFieldType.DayOfWeek);
             SkipWhiteSpace(reader);
             var command = reader.ReadToEnd();
             return new CronExpression(minutes, hours, daysOfMonth, months, daysOfWeek, command);
         }
 
-        private CronField ParseField(TextReader reader)
+        private CronField ParseField(TextReader reader, CronFieldType fieldType)
         {
             SkipWhiteSpace(reader);
-            if (char.IsDigit((char)reader.Peek()))
+            if (reader.Peek() == '*')
+            {
+                reader.Read();
+                return new WildcardCronField(fieldType);
+            }
+            else if (char.IsDigit((char)reader.Peek()))
             {
                 var buffer = new StringBuilder();
                 while (char.IsDigit((char)reader.Peek()))
@@ -28,7 +33,7 @@ namespace CronParser.Core
                     buffer.Append((char)reader.Read());
                 }
 
-                return new LiteralCronField(int.Parse(buffer.ToString()));
+                return new LiteralCronField(fieldType, int.Parse(buffer.ToString()));
             }
 
             throw new FormatException($"Unexpected character: {(char)reader.Peek()}");
