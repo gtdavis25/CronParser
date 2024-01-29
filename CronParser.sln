@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CronParser", "CronParser\CronParser.csproj", "{6C581627-EFE7-4607-A9D1-9C2EA636594E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CronParser.Core", "CronParser.Core\CronParser.Core.csproj", "{FDEC87F1-E818-4F31-982C-4B43A90483AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CronParser.Tests", "CronParser.Tests\CronParser.Tests.csproj", "{B9667A6B-1BE0-4F98-A226-F67309DA1D80}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C581627-EFE7-4607-A9D1-9C2EA636594E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C581627-EFE7-4607-A9D1-9C2EA636594E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C581627-EFE7-4607-A9D1-9C2EA636594E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C581627-EFE7-4607-A9D1-9C2EA636594E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDEC87F1-E818-4F31-982C-4B43A90483AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDEC87F1-E818-4F31-982C-4B43A90483AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDEC87F1-E818-4F31-982C-4B43A90483AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDEC87F1-E818-4F31-982C-4B43A90483AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9667A6B-1BE0-4F98-A226-F67309DA1D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9667A6B-1BE0-4F98-A226-F67309DA1D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9667A6B-1BE0-4F98-A226-F67309DA1D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9667A6B-1BE0-4F98-A226-F67309DA1D80}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1340A13C-A14C-41FF-9191-F334AD28093B}
+	EndGlobalSection
+EndGlobal
