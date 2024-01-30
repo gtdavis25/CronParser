@@ -27,16 +27,20 @@ namespace CronParser.Core
             }
             else if (char.IsDigit((char)reader.Peek()))
             {
-                var buffer = new StringBuilder();
-                while (char.IsDigit((char)reader.Peek()))
+                var value = ParseInteger(reader);
+                if (reader.Peek() == '-')
                 {
-                    buffer.Append((char)reader.Read());
+                    reader.Read();
+                    var max = ParseInteger(reader);
+                    return new RangeField(fieldType, value, max);
                 }
-
-                return new LiteralCronField(fieldType, int.Parse(buffer.ToString()));
+                else
+                {
+                    return new LiteralCronField(fieldType, value);
+                }
             }
 
-            throw new FormatException($"Unexpected character: {(char)reader.Peek()}");
+            throw new InvalidCronExpressionException($"Unexpected character: {(char)reader.Peek()}");
         }
 
         private void SkipWhiteSpace(TextReader reader)
@@ -45,6 +49,22 @@ namespace CronParser.Core
             {
                 reader.Read();
             }
+        }
+
+        private int ParseInteger(TextReader reader)
+        {
+            if (!char.IsDigit((char)reader.Peek()))
+            {
+                throw new InvalidCronExpressionException($"Unexpected character: {(char)reader.Peek()}");
+            }
+
+            var buffer = new StringBuilder();
+            while (char.IsDigit((char)reader.Peek()))
+            {
+                buffer.Append((char)reader.Read());
+            }
+
+            return int.Parse(buffer.ToString());
         }
     }
 }

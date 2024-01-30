@@ -19,13 +19,27 @@ namespace CronParser.Tests
         }
 
         [Fact]
-        public void Parse_should_parse_an_expression_containing_only_literal_values_and_wildcards()
+        public void Parse_should_parse_an_expression_containing_wildcards()
         {
             var input = "0 * * * * echo Hello world";
             var parser = new CronExpressionParser();
             var result = parser.Parse(input);
             Assert.Equal(new[] { 0 }, result.Minutes.Expand());
             Assert.Equal(Enumerable.Range(0, 24), result.Hours.Expand());
+            Assert.Equal(Enumerable.Range(1, 31), result.DaysOfMonth.Expand());
+            Assert.Equal(Enumerable.Range(1, 12), result.Months.Expand());
+            Assert.Equal(Enumerable.Range(1, 7), result.DaysOfWeek.Expand());
+            Assert.Equal("echo Hello world", result.Command);
+        }
+
+        [Fact]
+        public void Parse_should_parse_an_expression_containing_ranges()
+        {
+            var input = "0 9-17 * * * echo Hello world";
+            var parser = new CronExpressionParser();
+            var result = parser.Parse(input);
+            Assert.Equal(new[] { 0 }, result.Minutes.Expand());
+            Assert.Equal(new[] { 9, 10, 11, 12, 13, 14, 15, 16, 17 }, result.Hours.Expand());
             Assert.Equal(Enumerable.Range(1, 31), result.DaysOfMonth.Expand());
             Assert.Equal(Enumerable.Range(1, 12), result.Months.Expand());
             Assert.Equal(Enumerable.Range(1, 7), result.DaysOfWeek.Expand());
