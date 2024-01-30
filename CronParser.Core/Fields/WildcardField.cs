@@ -1,10 +1,10 @@
-﻿namespace CronParser.Core
+﻿namespace CronParser.Core.Fields
 {
-    internal class WildcardCronField : CronField
+    internal class WildcardField : CronField
     {
         private readonly int _stepValue;
 
-        internal WildcardCronField(CronFieldType fieldType, int stepValue) : base(fieldType)
+        internal WildcardField(CronFieldType fieldType, int stepValue) : base(fieldType)
         {
             _stepValue = stepValue;
         }

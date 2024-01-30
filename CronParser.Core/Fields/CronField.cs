@@ -1,4 +1,4 @@
-﻿namespace CronParser.Core
+﻿namespace CronParser.Core.Fields
 {
     public abstract class CronField
     {

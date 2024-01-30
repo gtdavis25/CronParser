@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using CronParser.Core.Fields;
 
 namespace CronParser.Core
 {
@@ -7,24 +8,47 @@ namespace CronParser.Core
         public CronExpression Parse(string input)
         {
             var reader = new StringReader(input);
-            var minutes = ParseField(reader, CronFieldType.Minute);
-            var hours = ParseField(reader, CronFieldType.Hour);
-            var daysOfMonth = ParseField(reader, CronFieldType.DayOfMonth);
-            var months = ParseField(reader, CronFieldType.Month);
-            var daysOfWeek = ParseField(reader, CronFieldType.DayOfWeek);
+            var minutes = ParseListOrSingleField(reader, CronFieldType.Minute);
+            var hours = ParseListOrSingleField(reader, CronFieldType.Hour);
+            var daysOfMonth = ParseListOrSingleField(reader, CronFieldType.DayOfMonth);
+            var months = ParseListOrSingleField(reader, CronFieldType.Month);
+            var daysOfWeek = ParseListOrSingleField(reader, CronFieldType.DayOfWeek);
             SkipWhiteSpace(reader);
             var command = reader.ReadToEnd();
             return new CronExpression(minutes, hours, daysOfMonth, months, daysOfWeek, command);
         }
 
-        private CronField ParseField(TextReader reader, CronFieldType fieldType)
+        private CronField ParseListOrSingleField(TextReader reader, CronFieldType fieldType)
         {
             SkipWhiteSpace(reader);
+            var subFields = new List<CronField>();
+            while (true)
+            {
+                subFields.Add(ParseSingleField(reader, fieldType));
+                if (reader.Peek() == ',')
+                {
+                    reader.Read();
+                    continue;
+                }
+
+                break;
+            }
+
+            if (subFields.Count == 1)
+            {
+                return subFields[0];
+            }
+
+            return new ListField(fieldType, subFields);
+        }
+
+        private CronField ParseSingleField(TextReader reader, CronFieldType fieldType)
+        {
             if (reader.Peek() == '*')
             {
                 reader.Read();
                 var stepValue = ParseOptionalStepValue(reader) ?? 1;
-                return new WildcardCronField(fieldType, stepValue);
+                return new WildcardField(fieldType, stepValue);
             }
             else if (char.IsDigit((char)reader.Peek()))
             {
@@ -38,7 +62,7 @@ namespace CronParser.Core
                 }
                 else
                 {
-                    return new LiteralCronField(fieldType, value);
+                    return new LiteralField(fieldType, value);
                 }
             }
 

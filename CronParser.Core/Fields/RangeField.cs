@@ -1,4 +1,4 @@
-﻿namespace CronParser.Core
+﻿namespace CronParser.Core.Fields
 {
     internal class RangeField : CronField
     {

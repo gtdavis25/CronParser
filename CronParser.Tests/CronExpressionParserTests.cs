@@ -73,5 +73,19 @@ namespace CronParser.Tests
             Assert.Equal(Enumerable.Range(1, 7), result.DaysOfWeek.Expand());
             Assert.Equal("echo Hello world", result.Command);
         }
+
+        [Fact]
+        public void Parse_should_parse_an_expression_containing_list_fields()
+        {
+            var input = "*/10,*/15 9-17/2 * * 1,3,5 echo Hello world";
+            var parser = new CronExpressionParser();
+            var result = parser.Parse(input);
+            Assert.Equal(new[] { 0, 10, 15, 20, 30, 40, 45, 50 }, result.Minutes.Expand());
+            Assert.Equal(new[] { 9, 11, 13, 15, 17 }, result.Hours.Expand());
+            Assert.Equal(Enumerable.Range(1, 31), result.DaysOfMonth.Expand());
+            Assert.Equal(Enumerable.Range(1, 12), result.Months.Expand());
+            Assert.Equal(new[] { 1, 3, 5 }, result.DaysOfWeek.Expand());
+            Assert.Equal("echo Hello world", result.Command);
+        }
     }
 }

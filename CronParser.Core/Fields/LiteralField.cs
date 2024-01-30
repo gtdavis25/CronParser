@@ -1,10 +1,10 @@
-﻿namespace CronParser.Core
+﻿namespace CronParser.Core.Fields
 {
-    internal class LiteralCronField : CronField
+    internal class LiteralField : CronField
     {
         private readonly int _value;
 
-        internal LiteralCronField(CronFieldType fieldType, int value) : base(fieldType)
+        internal LiteralField(CronFieldType fieldType, int value) : base(fieldType)
         {
             _value = value;
         }

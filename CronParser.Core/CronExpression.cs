@@ -1,4 +1,6 @@
-﻿namespace CronParser.Core
+﻿using CronParser.Core.Fields;
+
+namespace CronParser.Core
 {
     public class CronExpression
     {
