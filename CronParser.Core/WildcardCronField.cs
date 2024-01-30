@@ -2,13 +2,19 @@
 {
     internal class WildcardCronField : CronField
     {
-        internal WildcardCronField(CronFieldType fieldType) : base(fieldType)
+        private readonly int _stepValue;
+
+        internal WildcardCronField(CronFieldType fieldType, int stepValue) : base(fieldType)
         {
+            _stepValue = stepValue;
         }
 
         public override IEnumerable<int> Expand()
         {
-            return Enumerable.Range(FieldType.RangeStart, FieldType.RangeLength);
+            for (var i = 0; i < FieldType.RangeLength; i += _stepValue)
+            {
+                yield return FieldType.RangeStart + i;
+            }
         }
     }
 }

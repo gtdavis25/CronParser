@@ -23,7 +23,8 @@ namespace CronParser.Core
             if (reader.Peek() == '*')
             {
                 reader.Read();
-                return new WildcardCronField(fieldType);
+                var stepValue = ParseOptionalStepValue(reader) ?? 1;
+                return new WildcardCronField(fieldType, stepValue);
             }
             else if (char.IsDigit((char)reader.Peek()))
             {
@@ -32,7 +33,8 @@ namespace CronParser.Core
                 {
                     reader.Read();
                     var max = ParseInteger(reader);
-                    return new RangeField(fieldType, value, max);
+                    var stepValue = ParseOptionalStepValue(reader) ?? 1;
+                    return new RangeField(fieldType, value, max, stepValue);
                 }
                 else
                 {
@@ -65,6 +67,17 @@ namespace CronParser.Core
             }
 
             return int.Parse(buffer.ToString());
+        }
+
+        private int? ParseOptionalStepValue(TextReader reader)
+        {
+            if (reader.Peek() == '/')
+            {
+                reader.Read();
+                return ParseInteger(reader);
+            }
+
+            return null;
         }
     }
 }
